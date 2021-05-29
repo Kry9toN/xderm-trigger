@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -x ${IPKG_INSTROOT}/lib/functions.sh ] || exit 0
+. ${IPKG_INSTROOT}/lib/functions.sh
+sed -i -e '/xderm-trigger/d' /etc/rc.local
+default_prerm $0 $@

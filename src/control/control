@@ -1,0 +1,6 @@
+Package: xderm-trigger
+Version: 1.0.1
+Depends: curl
+Maintainer: KryPtoN
+Architecture: all
+Description: Xderm trigger if no internet
