@@ -14,14 +14,16 @@ int main(void)
     /* Allow to redirected */
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 #ifndef DEBUG
+     /* Don't print body HTML */
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 #endif
 
     /* Perform the request, res will get the return code */
     res = curl_easy_perform(curl);
 
-    /* Check for errors */
+    /* Check for connection */
     if(res == CURLE_OK) {
+      /* Connection available */
 #ifndef DEBUG
       system("cd /www/xderm/");
       system("./xderm-mini stop");
@@ -30,6 +32,7 @@ int main(void)
       printf("HTTP OK");
 #endif
     } else {
+      /* Connection not available */
 #ifdef DEBUG
       fprintf(stderr, "curl_easy_perform() failed: %s\n",
               curl_easy_strerror(res));
