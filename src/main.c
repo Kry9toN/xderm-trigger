@@ -13,7 +13,9 @@ int main(void)
     curl_easy_setopt(curl, CURLOPT_URL, "https://github.com");
     /* Allow to redirected */
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+#ifndef DEBUG
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
+#endif
 
     /* Perform the request, res will get the return code */
     res = curl_easy_perform(curl);
