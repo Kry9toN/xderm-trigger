@@ -24,8 +24,8 @@ int main(void)
     if(res == CURLE_OK) {
 #ifndef DEBUG
       system("cd /www/xderm/");
-      system("./$xderm stop");
-      system("./$xderm start");
+      system("./xderm-mini stop");
+      system("./xderm-mini start");
 #else
       printf("HTTP OK");
 #endif
