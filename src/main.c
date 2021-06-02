@@ -20,13 +20,19 @@ int main(void)
 
     /* Check for errors */
     if(res == CURLE_OK) {
+#ifndef DEBUG
       system("cd /www/xderm/");
       system("./$xderm stop");
       system("./$xderm start");
+#else
+      printf("HTTP OK");
+#endif
     } else {
 #ifdef DEBUG
       fprintf(stderr, "curl_easy_perform() failed: %s\n",
               curl_easy_strerror(res));
+#else
+      printf("There are something wrong!");
 #endif
     }
     /* always cleanup */
