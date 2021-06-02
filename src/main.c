@@ -11,7 +11,7 @@ int main(void)
 
   if(curl) {
     curl_easy_setopt(curl, CURLOPT_URL, "https://github.com");
-    /* example.com is redirected, so we tell libcurl to follow redirection */
+    /* Allow to redirected */
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 
@@ -35,7 +35,7 @@ int main(void)
       printf("There are something wrong!");
 #endif
     }
-    /* always cleanup */
+    /* Always cleanup */
     curl_easy_cleanup(curl);
   }
   return 0;
