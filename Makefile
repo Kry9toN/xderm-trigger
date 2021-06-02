@@ -1,26 +1,40 @@
-.PHONY: all clean
-
 NAME_FILE = xderm-trigger
-VERSION = 1.0.1
+VERSION = 1.1.1
 
-PWD = $(shell pwd)
-SRC_DIR = $(PWD)/src
-OUT_DIR = $(PWD)/out
-OUT_FILE = $(NAME_FILE)-$(VERSION).ipk
+OUT_FILE := $(NAME_FILE)-$(VERSION).ipk
 
-all: clean-out out-dir ipk-file
-clean: clean-out
+TOP = $(shell pwd)
+SRC_DIR = src
+BUILD_DIR = build
+OUT_DIR = out
+SOURCES := $(shell find $(SRC_DIR) -name "*.c")
+OBJECTS := $(SOURCES:%=$(BUILD_DIR)/%.o)
+TARGET := xderm-trigger
+CFLAGS ?= -lcurl
 
-clean-out:
-	@rm -rf $(OUT_DIR)
+.PHONY: all
+all: $(OUT_DIR)/$(TARGET)
+$(BUILD_DIR)/%.c.o: %.c
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-out-dir:
-	@test ! -d $(OUT_DIR) && mkdir $(OUT_DIR)
+$(OUT_DIR)/$(TARGET): $(OBJECTS)
+	$(MKDIR_P) $(dir $@)
+	$(CC) $(OBJECTS) $(CFLAGS) -o $@
 
-ipk-file:
+.PHONY: ipk
+ipk: all
 	@echo "Archive source"
-	@cd $(SRC_DIR)/data && tar czvf $(OUT_DIR)/data.tar.gz * && cd $(PWD)
-	@cd $(SRC_DIR)/control && tar czvf $(OUT_DIR)/control.tar.gz * && cd $(PWD)
+	$(MKDIR_P) $(OUT_DIR)/data/usr/bin
+	@mv $(OUT_DIR)/$(TARGET) $(OUT_DIR)/data/usr/bin
+	@cd $(OUT_DIR)/data && tar czvf ../data.tar.gz * && cd $(TOP)
+	@cd $(SRC_DIR)/control && tar czvf $(TOP)/$(OUT_DIR)/control.tar.gz * && cd $(TOP)
 	@echo 2.0 > $(OUT_DIR)/debian-binary
 	@cd $(OUT_DIR) && tar czvf $(OUT_FILE) debian-binary data.tar.gz control.tar.gz
 	@echo "Complete file $(OUT_FILE) on folder out"
+
+.PHONY: clean
+clean:
+	$(RM) -r $(OUT_DIR) $(BUILD_DIR)
+
+MKDIR_P ?= @mkdir -p
