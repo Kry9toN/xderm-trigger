@@ -27,6 +27,7 @@ int main(void)
 #ifndef DEBUG
       system("cd /www/xderm/");
       system("./xderm-mini stop");
+      system("rm screenlog.0");
       system("./xderm-mini start");
 #else
       printf("HTTP OK");
