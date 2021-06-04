@@ -4,45 +4,54 @@
 
 int main(void)
 {
-  CURL *curl;
-  CURLcode res;
+      for(;;) {
+            check();
+      }
+      return 0;
+}
 
-  curl = curl_easy_init();
+void check()
+{
+      CURL *curl;
+      CURLcode res;
 
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://github.com");
-    /* Allow to redirected */
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+      curl = curl_easy_init();
+
+      if(curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, "https://github.com");
+            /* Allow to redirected */
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 #ifndef DEBUG
-     /* Don't print body HTML */
-    curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
+            /* Don't print body HTML */
+            curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 #endif
 
-    /* Perform the request, res will get the return code */
-    res = curl_easy_perform(curl);
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
 
-    /* Check for connection */
-    if(res == CURLE_OK) {
-      /* Connection available */
+            /* Check for connection */
+            if(res == CURLE_OK) {
+                  /* Connection available */
 #ifndef DEBUG
-      system("cd /www/xderm/");
-      system("./xderm-mini stop");
-      system("rm screenlog.0");
-      system("./xderm-mini start");
+                  system("cd /www/xderm/");
+                  system("./xderm-mini stop");
+                  system("rm screenlog.0");
+                  system("./xderm-mini start");
 #else
-      printf("HTTP OK");
+                  printf("HTTP OK\n");
 #endif
-    } else {
-      /* Connection not available */
+                  sleep(10);
+            } else {
+                  /* Connection not available */
 #ifdef DEBUG
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
+                  fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(res));
 #else
-      printf("There are something wrong!");
+                  printf("No internet!\n");
 #endif
-    }
-    /* Always cleanup */
-    curl_easy_cleanup(curl);
-  }
-  return 0;
+                  sleep(10);
+            }
+      /* Always cleanup */
+      curl_easy_cleanup(curl);
+      }
 }
