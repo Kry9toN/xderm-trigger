@@ -10,7 +10,7 @@ int main(void)
       return 0;
 }
 
-void check()
+int check(void)
 {
       CURL *curl;
       CURLcode res;
@@ -32,14 +32,7 @@ void check()
             /* Check for connection */
             if(res == CURLE_OK) {
                   /* Connection available */
-#ifndef DEBUG
-                  system("cd /www/xderm/");
-                  system("./xderm-mini stop");
-                  system("rm screenlog.0");
-                  system("./xderm-mini start");
-#else
                   printf("HTTP OK\n");
-#endif
                   sleep(10);
             } else {
                   /* Connection not available */
@@ -48,6 +41,7 @@ void check()
                         curl_easy_strerror(res));
 #else
                   printf("No internet!\n");
+                  system("cd /www/xderm/ && ./xderm-mini stop && rm screenlog.0 && ./xderm-mini start");
 #endif
                   sleep(10);
             }
