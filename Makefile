@@ -40,7 +40,7 @@ endef
 
 define Package/xderm-trigger/postinst
 	#!/bin/sh
-	sed -i -e '$i \xderm-trigger &' /etc/rc.local
+	sed -i -e '3ixderm-trigger &' /etc/rc.local
 	exit 0
 endef
 
