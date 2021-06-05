@@ -38,6 +38,18 @@ define Package/xderm-trigger/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/out/xderm-trigger $(1)/usr/bin
 endef
 
+define Package/xderm-trigger/postinst
+	#!/bin/sh
+	sed -i -e '$i \xderm-trigger &' /etc/rc.local
+	exit 0
+endef
+
+define Package/xderm-trigger/prerm
+	#!/bin/sh
+	sed -i -e '/xderm-trigger/d' /etc/rc.local
+	exit 0
+endef
+
 CONFIGURE_ARGS += \
 	--disable-documentation \
 	--disable-ssp \
