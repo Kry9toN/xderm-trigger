@@ -21,6 +21,9 @@ int check(void)
             curl_easy_setopt(curl, CURLOPT_URL, "https://github.com");
             /* Allow to redirected */
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            
+            /* complete within 20 seconds */
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
 #ifndef DEBUG
             /* Don't print body HTML */
             curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
