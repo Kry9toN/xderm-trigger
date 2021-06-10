@@ -36,7 +36,7 @@ int check(void)
             if(res == CURLE_OK) {
                   /* Connection available */
                   printf("HTTP OK\n");
-                  sleep(20);
+                  sleep(10);
             } else {
                   /* Connection not available */
 #ifdef DEBUG
@@ -46,7 +46,7 @@ int check(void)
                   printf("No internet!\n");
                   system("cd /www/xderm/ && ./xderm-mini stop && rm screenlog.0 && ./xderm-mini start");
 #endif
-                  sleep(20);
+                  sleep(15);
             }
       /* Always cleanup */
       curl_easy_cleanup(curl);
