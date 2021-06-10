@@ -22,7 +22,7 @@ int check(void)
             /* Allow to redirected */
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             
-            /* complete within 20 seconds */
+            /* complete within 10 seconds */
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
 #ifndef DEBUG
             /* Don't print body HTML */
@@ -36,7 +36,7 @@ int check(void)
             if(res == CURLE_OK) {
                   /* Connection available */
                   printf("HTTP OK\n");
-                  sleep(10);
+                  sleep(20);
             } else {
                   /* Connection not available */
 #ifdef DEBUG
@@ -46,7 +46,7 @@ int check(void)
                   printf("No internet!\n");
                   system("cd /www/xderm/ && ./xderm-mini stop && rm screenlog.0 && ./xderm-mini start");
 #endif
-                  sleep(10);
+                  sleep(20);
             }
       /* Always cleanup */
       curl_easy_cleanup(curl);
