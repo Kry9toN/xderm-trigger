@@ -24,7 +24,7 @@ int check(void)
             
             /* complete within 10 seconds */
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
-#ifndef DEBUG
+#ifdef DEBUG
             /* Don't print body HTML */
             curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 #endif
