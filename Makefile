@@ -33,6 +33,11 @@ define Package/xderm-trigger
 	DEPENDS:=curl
 endef
 
+define Package/xderm-trigger/description
+	Trigger xderm for no internet and have internet
+	Auto reconnect tools for xderm-mini
+endef
+
 define Package/xderm-trigger/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/out/xderm-trigger $(1)/usr/bin
@@ -40,7 +45,12 @@ endef
 
 define Package/xderm-trigger/postinst
 	#!/bin/sh
-	sed -i -e '3ixderm-trigger &' /etc/rc.local
+	line=$(grep '' -c /etc/rc.local)
+	if [ $line -le 2 ]; then
+		sed -i -e '1ixderm-trigger &' /etc/rc.local
+	else
+		sed -i -e '3ixderm-trigger &' /etc/rc.local
+	fi
 	exit 0
 endef
 
