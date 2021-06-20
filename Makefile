@@ -45,12 +45,7 @@ endef
 
 define Package/xderm-trigger/postinst
 	#!/bin/sh
-	line=$(grep '' -c /etc/rc.local)
-	if [ $line -le 2 ]; then
-		sed -i -e '1ixderm-trigger &' /etc/rc.local
-	else
-		sed -i -e '3ixderm-trigger &' /etc/rc.local
-	fi
+	sed -i -e '2ixderm-trigger &' /etc/rc.local
 	exit 0
 endef
 
