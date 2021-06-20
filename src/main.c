@@ -46,7 +46,7 @@ int check(void)
                   printf("No internet!\n");
                   system("cd /www/xderm/ && ./xderm-mini stop && rm screenlog.0 && ./xderm-mini start");
 #endif
-                  sleep(15);
+                  sleep(25);
             }
       /* Always cleanup */
       curl_easy_cleanup(curl);
